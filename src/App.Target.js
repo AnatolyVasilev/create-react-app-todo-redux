@@ -1,5 +1,5 @@
 import "./App.css";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import service from './TodoService';
 
@@ -8,34 +8,34 @@ const selectTodos = state => state.todos;
 function App() {
 
     const tasks = useSelector(selectTodos);
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
     const [taskName, setTaskName] = useState('');
     const onChangeTaskName = (e) => {
         setTaskName(e.target.value);
     };
     const onSubmitTaskName = (e) => {
-        // dispatch((dispatch) => {
+        dispatch((dispatch) => {
             service.addTask(taskName);
-        //   dispatch({type: 'todos/change', todos: service.getData()})
-        // });
+            dispatch({type: 'todos/change', todos: service.getData()})
+        });
     };
 
     const removeTask = (id) => {
         return () => {
-            // dispatch((dispatch) => {
+            dispatch((dispatch) => {
                 service.removeTask(id);
-            //    dispatch({type: 'todos/change', todos: service.getData()})
-            // });
+                dispatch({type: 'todos/change', todos: service.getData()})
+            });
         };
     }
 
     const finishTask = (id) => {
         return () => {
-            // dispatch((dispatch) => {
+            dispatch((dispatch) => {
                 service.setActive(id, false);
-            //    dispatch({type: 'todos/change', todos: service.getData()})
-            // });
+                dispatch({type: 'todos/change', todos: service.getData()})
+            });
         };
     }
 
